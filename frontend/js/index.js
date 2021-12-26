@@ -220,7 +220,7 @@ select.addEventListener("change", function (e) {
       return response.json();
     })
     .then((data) => {
-      const content = `
+      const content = ` 
 
       <table class="table is-striped">
         <thead>
