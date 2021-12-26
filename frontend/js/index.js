@@ -215,6 +215,11 @@ select.addEventListener("change", function (e) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  function percent(a, b) {
+    let res = Math.round(((a * 100) / b) * 100) / 100;
+    return res;
+  }
+
   fetch(`https://covid-api.mmediagroup.fr/v1/cases?country=${select.value}`)
     .then((response) => {
       return response.json();
@@ -222,67 +227,117 @@ select.addEventListener("change", function (e) {
     .then((data) => {
       const content = ` 
 
-      <table class="table is-striped">
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th>Pays</th>
-            <th>Capitale</th>
-            <th>Continent</th>
-            <th>Lieu</th>
-            <th>Abbreviation</th>
-            <th>Population</th>
-            <th>Superficie</th>
-            <th>Coordonnées</th>
-            <th>ISO</th>
+            <th>Titre</th>
+            <th>Données</th>
           </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>${data.All.country}</td>
-          <td>${data.All.capital_city}</td>
-          <td>${data.All.continent}</td>
-          <td>${data.All.location}</td>
-          <td>${data.All.abbreviation}</td>
-          <td>${numberWithCommas(data.All.population)}</td>
-          <td>${numberWithCommas(data.All.sq_km_area)} km²</td>
-          <td>
-            <a href="http://www.google.com/maps/place/${data.All.lat},${
-        data.All.long
-      }">Localisation sur Google Maps</a>
-          </td>
-          <td>${data.All.iso}</td>
-        </tr>
-      </tbody>
-      </table>
-
-      <nav class="level is-full-tablet">
-  <div class="level-item has-text-centered">
-    <div>
-      <p class="heading">Cas confirmés</p>
-      <p class="title">${numberWithCommas(data.All.confirmed)}</p>
-    </div>
-  </div>
-  <div class="level-item has-text-centered">
-    <div>
-      <p class="heading">Cas guéris</p>
-      <p class="title">${numberWithCommas(data.All.recovered)}</p>
-    </div>
-  </div>
-  <div class="level-item has-text-centered">
-    <div>
-      <p class="heading">Décès</p>
-      <p class="title">${numberWithCommas(data.All.deaths)}</p>
-    </div>
-  </div>
-  <div class="level-item has-text-centered">
-    <div>
-      <p class="heading">Mise à jour</p>
-      <p class="title">${data.All.updated}</p>
-    </div>
-  </div>
-</nav>
-      
-      `;
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pays</td>
+            <td>${data.All.country ? data.All.country : "Non communiqué"}</td>
+          </tr>
+          <tr>
+            <td>Capitale</td>
+            <td>${
+              data.All.capital_city ? data.All.capital_city : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Continent</td>
+            <td>${
+              data.All.continent ? data.All.continent : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Lieu</td>
+            <td>${data.All.location ? data.All.location : "Non communiqué"}</td>
+          </tr>
+          <tr>
+            <td>Abbreviation</td>
+            <td>${
+              data.All.abbreviation ? data.All.abbreviation : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Population</td>
+            <td>${
+              numberWithCommas(data.All.population)
+                ? numberWithCommas(data.All.population)
+                : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Superficie</td>
+            <td>${
+              numberWithCommas(data.All.sq_km_area)
+                ? numberWithCommas(data.All.sq_km_area) + ` km<sup>2</sup>`
+                : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Localisation</td>
+            <td>${
+              data.All.lat && data.All.long
+                ? `<a target="_blank" href="https://www.google.com/maps/place/${data.All.lat}+${data.All.long}/@${data.All.lat},${data.All.long},6z">Voir sur Google Maps</a>`
+                : "None"
+            }</td>
+          </tr>
+          <tr>
+            <td>Cas confirmés</td>
+            <td>${
+              numberWithCommas(data.All.confirmed)
+                ? numberWithCommas(data.All.confirmed)
+                : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Cas guéris</td>
+            <td>${
+              numberWithCommas(data.All.recovered)
+                ? numberWithCommas(data.All.recovered)
+                : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Décès</td>
+            <td>${
+              numberWithCommas(data.All.deaths)
+                ? numberWithCommas(data.All.deaths) +
+                  " (" +
+                  percent(data.All.deaths, data.All.confirmed) +
+                  "%) "
+                : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Espérance de vie</td>
+            <td>${
+              data.All.life_expectancy
+                ? data.All.life_expectancy
+                : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Elévation en mètres</td>
+            <td>${
+              data.All.elevation_in_meters
+                ? data.All.elevation_in_meters
+                : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>ISO</td>
+            <td>${data.All.iso ? data.All.iso : "Non communiqué"}</td>
+          </tr>
+          <tr>
+            <td>Mise à jour</td>
+            <td>${data.All.updated ? data.All.updated : "Non communiqué"}</td>
+          </tr>
+        </tbody>
+      </table>`;
 
       document.querySelector("#result").innerHTML = content;
     })
@@ -290,7 +345,3 @@ select.addEventListener("change", function (e) {
       console.log(error);
     });
 });
-
-/*
-"life_expectancy":"78.8",
-"elevation_in_meters":375*/
