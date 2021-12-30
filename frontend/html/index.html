@@ -11,19 +11,27 @@
     <title>Accueil</title>
   </head>
   <body>
-    <div class="columns">
       <div
         class="
           column
           is-10-tablet is-offset-1-tablet is-8-desktop is-offset-2-desktop
         "
       >
+        <h1 class="title">Statistiques Covid-19</h1>
         <form method="post" class="box">
-          <div class="select">
-            <select id="select"></select>
+          <div class="notification is-info">
+            <i>Veuillez sélectionner un Pays</i>
+          </div>
+          <div class="field">
+            <div class="select">
+              <select id="select"></select>
+            </div>
           </div>
         </form>
-        <div id="result"></div>
+        <div class="columns">
+        <div id="cases" class="column"></div>
+        <div id="vaccines" class="column"></div>
+        </div>
       </div>
     </div>
     <script src="../js/index.js"></script>

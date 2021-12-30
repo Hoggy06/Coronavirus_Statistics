@@ -227,7 +227,7 @@ select.addEventListener("change", function (e) {
     .then((data) => {
       const content = ` 
 
-      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      <table class="table is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
             <th>Titre</th>
@@ -339,7 +339,64 @@ select.addEventListener("change", function (e) {
         </tbody>
       </table>`;
 
-      document.querySelector("#result").innerHTML = content;
+      document.querySelector("#cases").innerHTML = content;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  fetch(`https://covid-api.mmediagroup.fr/v1/vaccines?country=${select.value}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      const content = ` 
+
+      <table class="table is-striped is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Titre</th>
+            <th>Données</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Administrés</td>
+            <td>${
+              numberWithCommas(data.All.administered)
+                ? numberWithCommas(data.All.administered)
+                : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Population vaccinée</td>
+            <td>${
+              numberWithCommas(data.All.people_vaccinated)
+                ? numberWithCommas(data.All.people_vaccinated) +
+                  " (" +
+                  percent(data.All.people_vaccinated, data.All.population) +
+                  "%) "
+                : "Non communiqué"
+            }</td>
+          </tr>
+          <tr>
+            <td>Population partiellement vaccinée</td>
+            <td>${
+              numberWithCommas(data.All.people_partially_vaccinated)
+                ? numberWithCommas(data.All.people_partially_vaccinated) +
+                  " (" +
+                  percent(
+                    data.All.people_partially_vaccinated,
+                    data.All.population
+                  ) +
+                  "%) "
+                : "Non communiqué"
+            }</td>
+          </tr>
+        </tbody>
+      </table>`;
+
+      document.querySelector("#vaccines").innerHTML = content;
     })
     .catch((error) => {
       console.log(error);
