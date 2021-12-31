@@ -220,11 +220,34 @@ select.addEventListener("change", function (e) {
     return res;
   }
 
+  const obj = {};
+
   fetch(`https://covid-api.mmediagroup.fr/v1/cases?country=${select.value}`)
     .then((response) => {
       return response.json();
     })
     .then((data) => {
+      const countryInfos = {
+        pays: data.All.country,
+        capital: data.All.capital_city,
+        continent: data.All.continent,
+        location: data.All.location,
+        abbreviation: data.All.abbreviation,
+        population: data.All.population,
+        km2: data.All.sq_km_area,
+        latitude: data.All.lat,
+        longitude: data.All.long,
+        cas_confirmés: data.All.confirmed,
+        cas_guéris : data.All.recovered,
+        décès: data.All.deaths,
+        espérance_de_vie: data.All.life_expectancy,
+        élévation_en_mètres: data.All.elevation_in_meters,
+        iso: data.All.iso,
+        maj: data.All.updated,
+      }
+
+      obj.pays = countryInfos;
+
       const content = ` 
 
       <table class="table is-striped is-hoverable is-fullwidth">
@@ -316,7 +339,7 @@ select.addEventListener("change", function (e) {
             <td>Espérance de vie</td>
             <td>${
               data.All.life_expectancy
-                ? data.All.life_expectancy
+                ? data.All.life_expectancy + ` ans`
                 : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
@@ -350,6 +373,14 @@ select.addEventListener("change", function (e) {
       return response.json();
     })
     .then((data) => {
+      const vaccinesInfos = {
+        doses: data.All.administered,
+        vaccination_complète: data.All.people_vaccinated,
+        vaccination_partielle: data.All.people_partially_vaccinated
+      }
+
+      obj.vaccination = vaccinesInfos;
+
       const content = ` 
 
       <table class="table is-striped is-hoverable is-fullwidth">
@@ -397,8 +428,11 @@ select.addEventListener("change", function (e) {
       </table>`;
 
       document.querySelector("#vaccines").innerHTML = content;
+
     })
     .catch((error) => {
       console.log(error);
     });
+
+    console.log(obj);
 });
