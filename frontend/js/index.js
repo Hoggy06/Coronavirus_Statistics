@@ -237,28 +237,28 @@ select.addEventListener("change", function (e) {
         <tbody>
           <tr>
             <td>Pays</td>
-            <td>${data.All.country ? data.All.country : "Non communiqué"}</td>
+            <td>${data.All.country ? data.All.country : `<button class="button is-warning">Non communiqué</button>`}</td>
           </tr>
           <tr>
             <td>Capitale</td>
             <td>${
-              data.All.capital_city ? data.All.capital_city : "Non communiqué"
+              data.All.capital_city ? data.All.capital_city : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
             <td>Continent</td>
             <td>${
-              data.All.continent ? data.All.continent : "Non communiqué"
+              data.All.continent ? data.All.continent : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
             <td>Lieu</td>
-            <td>${data.All.location ? data.All.location : "Non communiqué"}</td>
+            <td>${data.All.location ? data.All.location : `<button class="button is-warning">Non communiqué</button>`}</td>
           </tr>
           <tr>
             <td>Abbreviation</td>
             <td>${
-              data.All.abbreviation ? data.All.abbreviation : "Non communiqué"
+              data.All.abbreviation ? data.All.abbreviation : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
@@ -266,7 +266,7 @@ select.addEventListener("change", function (e) {
             <td>${
               numberWithCommas(data.All.population)
                 ? numberWithCommas(data.All.population)
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
@@ -274,7 +274,7 @@ select.addEventListener("change", function (e) {
             <td>${
               numberWithCommas(data.All.sq_km_area)
                 ? numberWithCommas(data.All.sq_km_area) + ` km<sup>2</sup>`
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
@@ -282,7 +282,7 @@ select.addEventListener("change", function (e) {
             <td>${
               data.All.lat && data.All.long
                 ? `<a target="_blank" href="https://www.google.com/maps/place/${data.All.lat}+${data.All.long}/@${data.All.lat},${data.All.long},6z">Voir sur Google Maps</a>`
-                : "None"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
@@ -290,15 +290,15 @@ select.addEventListener("change", function (e) {
             <td>${
               numberWithCommas(data.All.confirmed)
                 ? numberWithCommas(data.All.confirmed)
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
             <td>Cas guéris</td>
             <td>${
-              numberWithCommas(data.All.recovered)
+              numberWithCommas(data.All.recovered) !== '0'
                 ? numberWithCommas(data.All.recovered)
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
@@ -309,7 +309,7 @@ select.addEventListener("change", function (e) {
                   " (" +
                   percent(data.All.deaths, data.All.confirmed) +
                   "%) "
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
@@ -317,7 +317,7 @@ select.addEventListener("change", function (e) {
             <td>${
               data.All.life_expectancy
                 ? data.All.life_expectancy
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
@@ -325,16 +325,16 @@ select.addEventListener("change", function (e) {
             <td>${
               data.All.elevation_in_meters
                 ? data.All.elevation_in_meters
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
             <td>ISO</td>
-            <td>${data.All.iso ? data.All.iso : "Non communiqué"}</td>
+            <td>${data.All.iso ? data.All.iso : `<button class="button is-warning">Non communiqué</button>`}</td>
           </tr>
           <tr>
             <td>Mise à jour</td>
-            <td>${data.All.updated ? data.All.updated : "Non communiqué"}</td>
+            <td>${data.All.updated ? data.All.updated : `<button class="button is-warning">Non communiqué</button>`}</td>
           </tr>
         </tbody>
       </table>`;
@@ -361,26 +361,26 @@ select.addEventListener("change", function (e) {
         </thead>
         <tbody>
           <tr>
-            <td>Administrés</td>
+            <td>Doses Administrées</td>
             <td>${
               numberWithCommas(data.All.administered)
                 ? numberWithCommas(data.All.administered)
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
-            <td>Population vaccinée</td>
+            <td>Complètement vacciné</td>
             <td>${
               numberWithCommas(data.All.people_vaccinated)
                 ? numberWithCommas(data.All.people_vaccinated) +
                   " (" +
                   percent(data.All.people_vaccinated, data.All.population) +
                   "%) "
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
           <tr>
-            <td>Population partiellement vaccinée</td>
+            <td>Partiellement vacciné</td>
             <td>${
               numberWithCommas(data.All.people_partially_vaccinated)
                 ? numberWithCommas(data.All.people_partially_vaccinated) +
@@ -390,7 +390,7 @@ select.addEventListener("change", function (e) {
                     data.All.population
                   ) +
                   "%) "
-                : "Non communiqué"
+                : `<button class="button is-warning">Non communiqué</button>`
             }</td>
           </tr>
         </tbody>
